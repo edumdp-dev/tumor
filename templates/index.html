@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predição de Tumor Cerebral e seus estágios
+    </title>
+    <link rel="icon" href="{{ url_for('static', filename='/images/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div id="telaBoasVindas">
+        <div class="logo-boas-vindas">
+        </div>
+        <h1>Bem-vindo(a) à Predição de Tumor Cerebral</h1>
+        <p class="descricao-aplicativo">Uma ferramenta de auxílio inteligente para a análise e predição do estágio de tumores cerebrais.</p>
+
+        <div class="info-modelo">
+            Este projeto utiliza um modelo de classificação <strong>Naive Bayes Gaussiano</strong>, otimizado para performance e interpretabilidade.
+            <p>O modelo foi treinado com um conjunto de dados abrangente, incluindo informações demográficas, características do tumor e histórico médico.</p>
+        </div>
+
+        <div class="secao-equipe">
+            <h2>Desenvolvido por:</h2>
+            <div class="membros-equipe">
+                <div class="membro-equipe">
+                    <img src="{{ url_for('static', filename='images/edu.jpg') }}" alt="Foto de Edu">
+                    <p>Edu</p>
+                </div>
+                <div class="membro-equipe">
+                    <img src="{{ url_for('static', filename='images/kenzo.jpg') }}" alt="Foto de Kenzo">
+                    <p>Kenzo</p>
+                </div>
+                <div class="membro-equipe">
+                    <img src="{{ url_for('static', filename='images/fujita.jpg') }}" alt="Foto de Fujita">
+                    <p>Fujita</p>
+                </div>
+            </div>
+        </div>
+
+        <button id="botaoIniciar">
+            Iniciar Atendimento <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <div id="conteudoPrincipal">
+        <div class="container-formulario">
+            <h1><i class="fas fa-brain"></i> Predição de Estágio de Tumor Cerebral</h1>
+            <form id="formularioTumor">
+                <fieldset>
+                    <legend><i class="fas fa-user-injured"></i>Informações do Paciente e Tumor</legend>
+
+                    <label for="Age"><i class="fas fa-birthday-cake"></i>Idade (anos):</label>
+                    <input type="number" id="Age" name="Age" required min="0" placeholder="Ex: 55">
+
+                    <label for="Gender"><i class="fas fa-venus-mars"></i>Gênero:</label>
+                    <select id="Gender" name="Gender" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="Male">Masculino</option>
+                        <option value="Female">Feminino</option>
+                    </select>
+
+                    <label for="Tumor_Type"><i class="fas fa-diagnoses"></i>Tipo de Tumor:</label>
+                    <select id="Tumor_Type" name="Tumor_Type" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="Benign">Benigno</option>
+                        <option value="Malignant">Maligno</option>
+                        <option value="Glioma">Glioma</option>
+                        <option value="Meningioma">Meningioma</option>
+                        <option value="Pituitary">Pituitário</option>
+                        <option value="Metastatic">Metastático</option>
+                    </select>
+
+                    <label for="Tumor_Size"><i class="fas fa-ruler-combined"></i>Tamanho do Tumor (cm):</label>
+                    <input type="number" id="Tumor_Size" name="Tumor_Size" step="0.1" required min="0" placeholder="Ex: 3.5">
+
+                    <label for="Location"><i class="fas fa-map-marker-alt"></i>Localização:</label>
+                    <select id="Location" name="Location" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="Frontal Lobe">Lobo Frontal</option>
+                        <option value="Temporal Lobe">Lobo Temporal</option>
+                        <option value="Parietal Lobe">Lobo Parietal</option>
+                        <option value="Occipital Lobe">Lobo Occipital</option>
+                        <option value="Cerebellum">Cerebelo</option>
+                        <option value="Brainstem">Tronco Cerebral</option>
+                        <option value="Multiple Areas">Múltiplas Áreas</option>
+                        <option value="Other">Outra</option>
+                    </select>
+
+                    <label for="Histology"><i class="fas fa-microscope"></i>Histologia:</label>
+                    <select id="Histology" name="Histology" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="Astrocytoma">Astrocitoma</option>
+                        <option value="Oligodendroglioma">Oligodendroglioma</option>
+                        <option value="Ependymoma">Ependimoma</option>
+                        <option value="Glioblastoma">Glioblastoma (GBM)</option>
+                        <option value="Meningioma">Meningioma</option>
+                        <option value="Schwannoma">Schwannoma</option>
+                        <option value="Medulloblastoma">Meduloblastoma</option>
+                        <option value="Lymphoma">Linfoma</option>
+                        <option value="Metastasis">Metástase</option>
+                        <option value="Other/Unknown">Outra/Desconhecida</option>
+                    </select>
+
+                    <label for="Symptom_1"><i class="fas fa-head-side-cough"></i>Sintoma Principal:</label>
+                    <select id="Symptom_1" name="Symptom_1" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="Headache">Cefaleia</option>
+                        <option value="Seizures">Convulsões</option>
+                        <option value="Cognitive Impairment">Déficit Cognitivo</option>
+                        <option value="Motor Weakness">Fraqueza Motora</option>
+                        <option value="Visual Disturbances">Distúrbios Visuais</option>
+                        <option value="Nausea/Vomiting">Náusea/Vômito</option>
+                        <option value="Speech Difficulty">Dificuldade na Fala</option>
+                        <option value="Balance Problems">Problemas de Equilíbrio</option>
+                        <option value="Incidental Finding">Achado Incidental</option>
+                        <option value="Other">Outro</option>
+                    </select>
+
+                    <label for="Symptom_2"><i class="fas fa-head-side-cough"></i>Sintoma Secundário (opcional):</label>
+                    <select id="Symptom_2" name="Symptom_2">
+                        <option value="N/A" selected>Nenhum / N/A</option>
+                        <option value="Headache">Cefaleia</option>
+                        <option value="Seizures">Convulsões</option>
+                        <option value="Cognitive Impairment">Déficit Cognitivo</option>
+                        <option value="Motor Weakness">Fraqueza Motora</option>
+                        <option value="Visual Disturbances">Distúrbios Visuais</option>
+                        <option value="Nausea/Vomiting">Náusea/Vômito</option>
+                        <option value="Speech Difficulty">Dificuldade na Fala</option>
+                        <option value="Balance Problems">Problemas de Equilíbrio</option>
+                        <option value="Other">Outro</option>
+                    </select>
+
+                    <label for="Symptom_3"><i class="fas fa-head-side-cough"></i>Sintoma Terciário (opcional):</label>
+                    <select id="Symptom_3" name="Symptom_3">
+                        <option value="N/A" selected>Nenhum / N/A</option>
+                        <option value="Headache">Cefaleia</option>
+                        <option value="Seizures">Convulsões</option>
+                        <option value="Cognitive Impairment">Déficit Cognitivo</option>
+                        <option value="Motor Weakness">Fraqueza Motora</option>
+                        <option value="Visual Disturbances">Distúrbios Visuais</option>
+                        <option value="Nausea/Vomiting">Náusea/Vômito</option>
+                        <option value="Speech Difficulty">Dificuldade na Fala</option>
+                        <option value="Balance Problems">Problemas de Equilíbrio</option>
+                        <option value="Other">Outro</option>
+                    </select>
+                </fieldset>
+
+                <fieldset>
+                    <legend><i class="fas fa-briefcase-medical"></i>Tratamento e Histórico</legend>
+                    <label for="Radiation_Treatment"><i class="fas fa-radiation"></i>Tratamento com Radiação?</label>
+                    <select id="Radiation_Treatment" name="Radiation_Treatment" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="No">Não</option>
+                        <option value="Yes">Sim</option>
+                    </select>
+
+                    <label for="Surgery_Performed"><i class="fas fa-procedures"></i>Cirurgia Realizada?</label>
+                    <select id="Surgery_Performed" name="Surgery_Performed" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="No">Não</option>
+                        <option value="Yes">Sim (Ressecção)</option>
+                        <option value="Biopsy Only">Apenas Biópsia</option>
+                    </select>
+
+                    <label for="Chemotherapy"><i class="fas fa-pills"></i>Quimioterapia?</label>
+                    <select id="Chemotherapy" name="Chemotherapy" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="No">Não</option>
+                        <option value="Yes">Sim</option>
+                    </select>
+
+                    <label for="Survival_Rate"><i class="fas fa-percent"></i>Taxa de Sobrevida Estimada (%):</label>
+                    <input type="number" id="Survival_Rate" name="Survival_Rate" min="0" max="100" step="0.1" required placeholder="Ex: 75.5">
+
+                    <label for="Tumor_Growth_Rate"><i class="fas fa-chart-line"></i>Taxa de Crescimento do Tumor (cm³/mês ou %/mês):</label>
+                    <input type="number" id="Tumor_Growth_Rate" name="Tumor_Growth_Rate" step="0.01" required min="0" placeholder="Ex: 0.2">
+
+                    <label for="Family_History"><i class="fas fa-users"></i>Histórico Familiar de Tumor Cerebral?</label>
+                    <select id="Family_History" name="Family_History" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="No">Não</option>
+                        <option value="Yes">Sim</option>
+                    </select>
+
+                    <label for="MRI_Result"><i class="fas fa-x-ray"></i>Resultado da Ressonância Magnética (principal):</label>
+                    <select id="MRI_Result" name="MRI_Result" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="Negative">Negativo para malignidade</option>
+                        <option value="Positive">Positivo para malignidade</option>
+                        <option value="Indeterminate">Indeterminado</option>
+                        <option value="Not Performed">Não realizado</option>
+                    </select>
+
+                    <label for="Follow_Up_Required"><i class="fas fa-calendar-check"></i>Acompanhamento Necessário?</label>
+                    <select id="Follow_Up_Required" name="Follow_Up_Required" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="No">Não</option>
+                        <option value="Yes">Sim</option>
+                    </select>
+
+                    <label for="Treatment_Response"><i class="fas fa-notes-medical"></i>Resposta ao Tratamento Inicial:</label>
+                    <select id="Treatment_Response" name="Treatment_Response" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="Improved">Melhora</option>
+                        <option value="Worsened">Piora</option>
+                        <option value="Stable">Estável</option>
+                        <option value="Complete Response">Resposta Completa</option>
+                        <option value="Partial Response">Resposta Parcial</option>
+                        <option value="Not Applicable">Não Aplicável / Cedo Demais</option>
+                    </select>
+                </fieldset>
+
+                <button type="submit">
+                    <i class="fas fa-cogs"></i> Prever Estágio
+                </button>
+            </form>
+
+            <div id="secaoResultado">
+                <h2><i class="fas fa-poll"></i>Resultado da Previsão:</h2>
+                <p id="textoEstagioPredito">Aguardando dados para análise...</p>
+                <p class="mensagem-auxiliar-resultado">
+                    <i class="fas fa-info-circle"></i> Esta predição é uma ferramenta de auxílio baseada em MachineLearning/Inteligência Artificial. Não leve-a como um diagnóstico médico definitivo.
+                </p>
+            </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
